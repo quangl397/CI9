@@ -7,12 +7,6 @@ import java.awt.event.WindowEvent;
 public class GameWindow extends JFrame {
     GameCanvas canvas;
     public GameWindow() {
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent windowEvent) {
-                System.exit(0);
-            }
-        });
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent keyEvent) {
@@ -22,6 +16,12 @@ public class GameWindow extends JFrame {
             @Override
             public void keyReleased(KeyEvent keyEvent) {
                 canvas.inputManager.keyReleased(keyEvent);
+            }
+        });
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                System.exit(0);
             }
         });
         this.setSize(600,800);

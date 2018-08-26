@@ -10,61 +10,61 @@ import java.util.Random;
 
 public class GameCanvas extends JPanel {
     Image background;
+    Player player;
 
+    int count;
     int enemySpawnCount;
+    boolean shootLock = false;
 
     BufferedImage backBuffer;
     Graphics backBufferGraphics;
 
-    ArrayList<PlayerBullet> bs;
-    ArrayList<Enemy> es;
+    ArrayList<PlayerBullet> bullets;
+    ArrayList<Enemy> enemies;
     Random random;
-
     InputManager inputManager;
-    Player player;
     public GameCanvas() {
-        bs = new ArrayList<>();
-        es = new ArrayList<>();
-        random = new Random();
         inputManager = new InputManager();
-        player = new Player(268,660);
+        bullets = new ArrayList<>();
+        enemies = new ArrayList<>();
+        random = new Random();
+        player = new Player(268, 660);
         player.inputManager = inputManager;
-
+        player.bullets = this.bullets;
         background = ImageUtil.load("images/background/background.png");
-
         backBuffer = new BufferedImage(600,800,BufferedImage.TYPE_INT_ARGB);
         backBufferGraphics = backBuffer.getGraphics();
     }
 
     @Override
-    protected void paintComponent(Graphics graphics) {
+    public void paint(Graphics graphics) {
         graphics.drawImage(backBuffer,0,0,null);
     }
 
+
     void run() {
-        player.run(bs);
-        for (PlayerBullet b: bs) {
+        player.run();
+        for (PlayerBullet b: bullets) {
             b.run();
         }
-        //enemy
-        for (Enemy e: es) {
-            e.y += 3;
+        for (Enemy e: enemies) {
+            e.run();
         }
         enemySpawnCount++;
         if (enemySpawnCount > 60) {
             enemySpawnCount = 0;
-            Enemy newE = new Enemy(random.nextInt(600), -64);
-            es.add(newE);
+            Enemy enemy = new Enemy(random.nextInt(600), -64);
+            enemies.add(enemy);
         }
     }
 
     void render() {
-        backBufferGraphics.drawImage(background,0,0,null);
+        backBufferGraphics.drawImage(background,0,0, null);
         player.render(backBufferGraphics);
-        for (PlayerBullet b: bs) {
+        for (PlayerBullet b: bullets) {
             b.render(backBufferGraphics);
         }
-        for (Enemy e: es) {
+        for (Enemy e: enemies) {
             e.render(backBufferGraphics);
         }
         this.repaint();
