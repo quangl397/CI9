@@ -12,9 +12,7 @@ public class GameCanvas extends JPanel {
     Image background;
     Player player;
 
-    int count;
     int enemySpawnCount;
-    boolean shootLock = false;
 
     BufferedImage backBuffer;
     Graphics backBufferGraphics;
