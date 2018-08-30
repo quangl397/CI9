@@ -1,3 +1,7 @@
+package game;
+
+import inputs.InputManager;
+
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -10,12 +14,12 @@ public class GameWindow extends JFrame {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent keyEvent) {
-                canvas.inputManager.keyPressed(keyEvent);
+                InputManager.instance.keyPressed(keyEvent);
             }
 
             @Override
             public void keyReleased(KeyEvent keyEvent) {
-                canvas.inputManager.keyReleased(keyEvent);
+                InputManager.instance.keyReleased(keyEvent);
             }
         });
         this.addWindowListener(new WindowAdapter() {
@@ -32,7 +36,7 @@ public class GameWindow extends JFrame {
         this.setVisible(true);
     }
 
-    void mainLoop() {
+    public void mainLoop() {
         long lastTimeRender = 0;
         long currentTime;
         while (true) {
