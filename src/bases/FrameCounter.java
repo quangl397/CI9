@@ -12,7 +12,6 @@ public class FrameCounter {
     }
 
     public void run() {
-        count++;
         if (count >= limit) {
             expired = true;
         } else {

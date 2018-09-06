@@ -1,26 +1,25 @@
 package players;
 
 import java.awt.*;
-import java.util.ArrayList;
-import bases.Vector2D;
-import inputs.InputManager;
+
+import bases.GameObject;
 import bases.ImageRenderer;
 
-public class Player {
-    Vector2D position;
-    public ArrayList<PlayerBullet> bullets;
-    ImageRenderer imageRenderer;
-    PlayerMove playerMove;
-    PlayerShoot playerShoot;
+public class Player extends GameObject {
+
+    private PlayerMove playerMove;
+    private PlayerShoot playerShoot;
 
     public Player(int x, int y) {
-        position = new Vector2D(x,y);
+        super(x,y);
         imageRenderer = new ImageRenderer("images/player/MB-69/player1.png");
         playerMove = new PlayerMove();
         playerShoot = new PlayerShoot();
     }
 
+    @Override
     public void run() {
+        super.run();
         this.move();
         this.shoot();
     }
