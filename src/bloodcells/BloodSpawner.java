@@ -5,11 +5,11 @@ import bases.GameObject;
 
 import java.util.Random;
 
-public class BloodSpawn extends GameObject{
+public class BloodSpawner extends GameObject{
     FrameCounter frameCounter = new FrameCounter(60);
     Random random = new Random();
 
-    public BloodSpawn() {
+    public BloodSpawner() {
         super(0,0);
     }
 
