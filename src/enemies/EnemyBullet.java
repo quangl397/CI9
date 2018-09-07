@@ -3,8 +3,6 @@ package enemies;
 import bases.GameObject;
 import bases.ImageRenderer;
 
-import java.awt.*;
-
 public class EnemyBullet extends GameObject {
 
     public EnemyBullet(int x, int y) {

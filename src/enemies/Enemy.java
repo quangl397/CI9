@@ -1,6 +1,5 @@
 package enemies;
 
-import java.awt.*;
 import java.util.Random;
 
 import bases.FrameCounter;
@@ -11,9 +10,7 @@ public class Enemy extends GameObject {
 
     EnemyMove enemyMove;
     Random random;
-    FrameCounter frameCounter;
     EnemyShoot enemyShoot;
-    EnemySpawner enemySpawner;
 
     public Enemy(int x, int y) {
         super(x,y);
@@ -21,8 +18,6 @@ public class Enemy extends GameObject {
         enemyShoot = new EnemyShoot();
         random = new Random();
         enemyMove = new EnemyMove();
-        frameCounter = new FrameCounter(100);
-        enemySpawner = new EnemySpawner();
     }
 
     public void run() {
@@ -39,11 +34,4 @@ public class Enemy extends GameObject {
         this.enemyMove.run(position);
     }
 
-    public void spawn() {
-        this.enemySpawner.run();
-    }
-
-    public void render(Graphics g) {
-        imageRenderer.render(g,this.position);
-    }
 }

@@ -4,8 +4,10 @@ import background.BackGround;
 import bases.FrameCounter;
 import bases.GameObject;
 import bloodcells.BloodCell;
+import bloodcells.BloodSpawner;
 import enemies.Enemy;
 import enemies.EnemyBullet;
+import enemies.EnemySpawner;
 import inputs.InputManager;
 import javafx.scene.layout.Background;
 import players.Player;
@@ -28,6 +30,8 @@ public class GameCanvas extends JPanel {
 
     Random random;
     BloodCell bloodCell;
+    BloodSpawner bloodSpawner;
+    EnemySpawner enemySpawner;
 
     public GameCanvas() {
         frameCounter = new FrameCounter(60);
@@ -38,9 +42,13 @@ public class GameCanvas extends JPanel {
         player2 = new Player2(400,700);
         background = new BackGround(300,400);
         bloodCell = new BloodCell(random.nextInt(600),random.nextInt(800));
+        bloodSpawner = new BloodSpawner();
+        enemySpawner = new EnemySpawner();
         GameObject.add(background);
         GameObject.add(player);
         GameObject.add(player2);
+        GameObject.add(bloodSpawner);
+        GameObject.add(enemySpawner);
 
         backBuffer = new BufferedImage(600,800,BufferedImage.TYPE_INT_ARGB);
         backBufferGraphics = backBuffer.getGraphics();
@@ -54,9 +62,6 @@ public class GameCanvas extends JPanel {
 
     void run() {
         GameObject.runAll();
-
-        enemy.spawn();
-        bloodCell.spawn();
     }
 
     void render() {

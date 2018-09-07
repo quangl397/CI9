@@ -3,8 +3,6 @@ package players;
 import bases.GameObject;
 import bases.ImageRenderer;
 
-import java.awt.*;
-
 public class Player2 extends GameObject {
 
     public Player2(int x, int y) {
@@ -16,7 +14,4 @@ public class Player2 extends GameObject {
 
     }
 
-    public void render(Graphics g) {
-        imageRenderer.render(g,position);
-    }
 }
