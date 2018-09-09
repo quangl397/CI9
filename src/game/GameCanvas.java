@@ -15,36 +15,24 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 public class GameCanvas extends JPanel {
-    Player player;
-    Enemy enemy;
-    Player2 player2;
-    BackGround background;
-
     BufferedImage backBuffer;
     Graphics backBufferGraphics;
     FrameCounter frameCounter;
 
     Random random;
     BloodCell bloodCell;
-    BloodSpawner bloodSpawner;
-    EnemySpawner enemySpawner;
 
     public GameCanvas() {
         frameCounter = new FrameCounter(60);
         random = new Random();
 
-        enemy = new Enemy(random.nextInt(600), -64);
-        player = new Player(300, 700);
-        player2 = new Player2(400,700);
-        background = new BackGround(300,400);
         bloodCell = new BloodCell(random.nextInt(600),random.nextInt(800));
-        bloodSpawner = new BloodSpawner();
-        enemySpawner = new EnemySpawner();
-        GameObject.add(background);
-        GameObject.add(player);
+        GameObject.add(new BackGround(300,400));
+        GameObject.add(new Player(300, 700));
+        GameObject.add(new Enemy(random.nextInt(600), -64));
 //        GameObject.add(player2);
-        GameObject.add(bloodSpawner);
-        GameObject.add(enemySpawner);
+        GameObject.add(new BloodSpawner());
+        GameObject.add(new EnemySpawner());
 
         backBuffer = new BufferedImage(600,800,BufferedImage.TYPE_INT_ARGB);
         backBufferGraphics = backBuffer.getGraphics();

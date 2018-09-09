@@ -1,7 +1,5 @@
 package players;
 
-import java.awt.*;
-
 import bases.BoxCollider;
 import bases.GameObject;
 import bases.ImageRenderer;
