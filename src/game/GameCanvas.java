@@ -6,13 +6,9 @@ import bases.GameObject;
 import bloodcells.BloodCell;
 import bloodcells.BloodSpawner;
 import enemies.Enemy;
-import enemies.EnemyBullet;
 import enemies.EnemySpawner;
-import inputs.InputManager;
-import javafx.scene.layout.Background;
 import players.Player;
 import players.Player2;
-import players.PlayerBullet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +42,7 @@ public class GameCanvas extends JPanel {
         enemySpawner = new EnemySpawner();
         GameObject.add(background);
         GameObject.add(player);
-        GameObject.add(player2);
+//        GameObject.add(player2);
         GameObject.add(bloodSpawner);
         GameObject.add(enemySpawner);
 
@@ -65,9 +61,7 @@ public class GameCanvas extends JPanel {
     }
 
     void render() {
-
         GameObject.renderAll(backBufferGraphics);
-
         this.repaint();
     }
 }

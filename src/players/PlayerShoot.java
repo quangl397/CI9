@@ -6,7 +6,7 @@ import inputs.InputManager;
 
 public class PlayerShoot {
     boolean shootLock;
-    FrameCounter frameCounter = new FrameCounter(20);
+    FrameCounter frameCounter = new FrameCounter(10);
     void run(Player player) {
         if (InputManager.instance.xPressed && !shootLock) {
             Vector2D bulletPosition = player.position.subtract(0,50);
