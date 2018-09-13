@@ -5,10 +5,8 @@ import bases.FrameCounter;
 import bases.GameObject;
 import bloodcells.BloodCell;
 import bloodcells.BloodSpawner;
-import enemies.Enemy;
 import enemies.EnemySpawner;
 import players.Player;
-import players.Player2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,8 +27,6 @@ public class GameCanvas extends JPanel {
         bloodCell = new BloodCell(random.nextInt(600),random.nextInt(800));
         GameObject.add(new BackGround(300,400));
         GameObject.add(new Player(300, 700));
-        GameObject.add(new Enemy(random.nextInt(600), -64));
-//        GameObject.add(player2);
         GameObject.add(new BloodSpawner());
         GameObject.add(new EnemySpawner());
 

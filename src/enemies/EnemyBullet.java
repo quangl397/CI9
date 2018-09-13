@@ -1,15 +1,17 @@
 package enemies;
 
-import bases.BoxCollider;
-import bases.GameObject;
-import bases.ImageRenderer;
+import bases.*;
 import players.Player;
 
 public class EnemyBullet extends GameObject {
 
     public EnemyBullet(int x, int y) {
         super(x,y);
-        this.imageRenderer = new ImageRenderer("images/bullet/enemy/enemy2_bullet2.png");
+        this.renderer = new Animation(
+                ImageUtil.load("images/bullet/enemy/enemy2_bullet1.png"),
+                ImageUtil.load("images/bullet/enemy/enemy2_bullet2.png"),
+                ImageUtil.load("images/bullet/enemy/enemy2_bullet3.png")
+                );
         this.boxCollider = new BoxCollider(x,y,20,20);
     }
 
@@ -18,16 +20,24 @@ public class EnemyBullet extends GameObject {
         super.run();
         move();
         hitPlayer();
+        deactiveIfNeeded();
+    }
+
+    private void deactiveIfNeeded() {
+        if (this.position.y > 800) {
+            this.isActive = false;
+        }
     }
 
     private void hitPlayer() {
-        Player player = GameObject.checkCollisionPlayer(this.boxCollider);
+        Player player = GameObject.checkCollision(this.boxCollider, Player.class);
         if (player != null) {
-            player.destroy();
+            player.getHit();
+            this.destroy();
         }
     }
 
     public void move() {
-        this.position.addUp(0,10);
+        this.position.addUp(0,8);
     }
 }

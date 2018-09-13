@@ -1,15 +1,18 @@
 package bases;
 
 import enemies.Enemy;
+import enemies.EnemyBullet;
 import players.Player;
+import players.PlayerBullet;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class GameObject {
     public Vector2D position;
-    public ImageRenderer imageRenderer;
+    public Renderer renderer;
     public boolean isActive;
+    public static boolean isLiving;
 
     private static ArrayList<GameObject> gameObjects = new ArrayList<>();
     private static ArrayList<GameObject> newGameObjects = new ArrayList<>();
@@ -20,46 +23,95 @@ public class GameObject {
 
     public static void runAll() {
         for (GameObject go: gameObjects) {
-            if (go.isActive) {
+            if (go.isActive && go.isLiving) {
                 go.run();
             }
         }
+        gameObjects.addAll(newGameObjects);
+        newGameObjects.clear();
+        System.out.println(gameObjects.size());
     }
 
     public static void renderAll(Graphics g) {
         for (GameObject go: gameObjects) {
-            if (go.isActive) {
+            if (go.isActive && go.isLiving) {
                 go.render(g);
             }
         }
-
-        gameObjects.addAll(newGameObjects);
-        newGameObjects.clear();
     }
 
-    public static Enemy checkCollision(BoxCollider boxCollider) {
-
-        Enemy result = null;
+    public static PlayerBullet recycle(int x, int y) {
+        PlayerBullet pb = null;
         for (GameObject go: gameObjects) {
-            if (go.isActive && go.boxCollider != null) {
-                if (go instanceof Enemy) {
-                    if (go.boxCollider.collideWith(boxCollider)) {
-                        result = (Enemy)go;
-                    }
+            if (!go.isActive) {
+                if (go instanceof PlayerBullet) {
+                    pb = (PlayerBullet) go;
                 }
             }
         }
-        return result;
+
+        if (pb == null) {
+            pb = new PlayerBullet(x,y);
+            GameObject.add(pb);
+        } else {
+            pb.isActive = true;
+            pb.position.x = x;
+            pb.position.y = y;
+        }
+        return pb;
     }
 
-    public static Player checkCollisionPlayer(BoxCollider boxCollider) {
-        Player result = null;
+    public static Enemy recycleEnemy(int x, int y) {
+        Enemy e = null;
+        for (GameObject go: gameObjects) {
+            if (!go.isActive) {
+                if (go instanceof Enemy) {
+                    e = (Enemy) go;
+                }
+            }
+        }
 
+        if (e == null) {
+            e = new Enemy(x,y);
+            GameObject.add(e);
+        } else {
+            e.isActive = true;
+            e.position.x = x;
+            e.position.y = y;
+        }
+        return e;
+    }
+
+    public static EnemyBullet recycleEnemyB(int x, int y) {
+        EnemyBullet eb = null;
+        for (GameObject go: gameObjects) {
+            if (!go.isActive) {
+                if (go instanceof EnemyBullet) {
+                    eb = (EnemyBullet) go;
+                }
+            }
+        }
+
+        if (eb == null) {
+            eb = new EnemyBullet(x,y);
+            GameObject.add(eb);
+        } else {
+            eb.isActive = true;
+            eb.position.x = x;
+            eb.position.y = y;
+        }
+        return eb;
+    }
+    //generics
+
+    public static <T extends GameObject> T checkCollision(BoxCollider boxCollider, Class<T> cls) {
+
+        T result = null;
         for (GameObject go: gameObjects) {
             if (go.isActive && go.boxCollider != null) {
-                if (go instanceof Player) {
+                if (go.getClass().equals(cls)) {
                     if (go.boxCollider.collideWith(boxCollider)) {
-                        result = (Player)go;
+                        result = (T)go;
                     }
                 }
             }
@@ -71,9 +123,10 @@ public class GameObject {
 
     public GameObject(int x, int y) {
         this.position = new Vector2D(x,y);
-        this.imageRenderer = null; //not yet specified
+        this.renderer = null; //not yet specified
         this.boxCollider = null;
         this.isActive = true;
+        this.isLiving = true;
     }
 
     public void run() {
@@ -84,8 +137,8 @@ public class GameObject {
         }
     }
     public void render(Graphics g) {
-        if (this.imageRenderer != null) {
-            this.imageRenderer.render(g,this.position);
+        if (this.renderer != null) {
+            this.renderer.render(g,this.position);
         }
 
         if (this.boxCollider != null) {
@@ -97,4 +150,7 @@ public class GameObject {
         this.isActive = false;
     }
 
+    public void deathPlayer() {
+        this.isLiving = false;
+    }
 }

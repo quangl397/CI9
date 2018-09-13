@@ -2,9 +2,7 @@ package enemies;
 
 import java.util.Random;
 
-import bases.BoxCollider;
-import bases.GameObject;
-import bases.ImageRenderer;
+import bases.*;
 import players.Player;
 
 public class Enemy extends GameObject {
@@ -13,9 +11,13 @@ public class Enemy extends GameObject {
     Random random;
     EnemyShoot enemyShoot;
 
-    public Enemy(int x, int y) {
+    public Enemy(int x, int y)  {
         super(x,y);
-        this.imageRenderer = new ImageRenderer("images/enemy/bacteria/bacteria1.png");
+        this.renderer = new Animation(
+                ImageUtil.load("images/enemy/bacteria/bacteria1.png"),
+                ImageUtil.load("images/enemy/bacteria/bacteria2.png"),
+                ImageUtil.load("images/enemy/bacteria/bacteria3.png")
+        );
         enemyShoot = new EnemyShoot();
         random = new Random();
         enemyMove = new EnemyMove();
@@ -27,16 +29,24 @@ public class Enemy extends GameObject {
         this.move();
         this.shoot();
         touchPlayer();
+        deactiveIfNeeded();
     }
 
-    private void touchPlayer() {
-        Player player = GameObject.checkCollisionPlayer(this.boxCollider);
-        if (player != null) {
-            this.enemyMove = null;
+    private void deactiveIfNeeded() {
+        if (this.position.y > 800) {
+            this.isActive = false;
         }
     }
 
-    public void shoot() {
+    private void touchPlayer() {
+        Player player = GameObject.checkCollision(this.boxCollider, Player.class);
+        if (player != null) {
+            player.deathPlayer();
+        }
+    }
+
+
+    public void shoot()  {
         this.enemyShoot.run(this);
     }
 
@@ -46,5 +56,10 @@ public class Enemy extends GameObject {
 
     public void getHit() {
         this.destroy();
+        EnemyExplosion explosion = new EnemyExplosion(
+                (int)this.position.x,
+                (int)this.position.y
+        );
+        GameObject.add(explosion);
     }
 }

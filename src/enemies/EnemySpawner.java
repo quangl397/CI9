@@ -19,8 +19,7 @@ public class EnemySpawner extends GameObject{
         frameCounter.run();
         if (frameCounter.expired) {
             frameCounter.reset();
-            Enemy newEnemy = new Enemy(random.nextInt(600), 0);
-            GameObject.add(newEnemy);
+            Enemy newEnemy = GameObject.recycleEnemy(random.nextInt(600), 0);
         }
     }
 }

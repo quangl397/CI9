@@ -5,13 +5,13 @@ import bases.Vector2D;
 import inputs.InputManager;
 
 public class PlayerShoot {
-    boolean shootLock;
+    boolean shootLock =false;
     FrameCounter frameCounter = new FrameCounter(10);
+
     void run(Player player) {
         if (InputManager.instance.xPressed && !shootLock) {
             Vector2D bulletPosition = player.position.subtract(0,50);
-            PlayerBullet newB = new PlayerBullet((int)bulletPosition.x,(int)bulletPosition.y);
-            GameObject.add(newB);
+            PlayerBullet newBullet = GameObject.recycle((int)bulletPosition.x,(int)bulletPosition.y);
             shootLock = true;
         }
 

@@ -7,12 +7,12 @@ import bases.Vector2D;
 public class BloodCell extends GameObject {
     public BloodCell(int x, int y) {
         super(x, y);
-        imageRenderer = new ImageRenderer("images/blood cells/blood-cell2.png");
+        renderer = new ImageRenderer("images/blood cells/blood-cell2.png");
     }
 
     public void run() {
         super.run();
-        position.addUp(10,10);
+        position.addUp(2,2);
         this.move();
     }
 
